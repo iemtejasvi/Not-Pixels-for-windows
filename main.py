@@ -66,16 +66,11 @@ def log_message(message, color=Style.RESET_ALL):
 def load_proxy_from_file(filename='proxy.txt'):
     if not os.path.exists(filename):
         log_message(random.choice([
-            "We couldn't even keep a simple promise like loading a proxy...",
-            "It was supposed to work, but just like us, it’s broken.",
-            "The proxy file is gone... like all the plans we had together.",
-            "I searched for it, but the proxy file just doesn’t exist, like the connection we used to have.",
-            "You wanted to use the proxy, but it’s just another thing that’s gone now.",
-            "The proxy is missing... much like how things used to be between us.",
-            "Couldn't find the proxy file... maybe it's a sign that some things are meant to stay lost.",
-            "Another missing piece, another reminder of what we’ve lost.",
-            "The file is missing. Just like the moments we’ll never get back.",
-            "Nothing works anymore... not even the proxy."
+            "It’s gone... like everything we built together, the proxy file isn’t here anymore.",
+            "We searched, but the proxy file is gone... just like the future we once talked about.",
+            "Even the proxy’s missing... it’s just another thing we couldn’t hold onto.",
+            "I wanted to find it, I really did, but the proxy’s just not there... like how we drifted apart.",
+            "The proxy file... missing, lost, just like everything we tried to save."
         ]), Fore.RED)
         return None
     
@@ -101,11 +96,11 @@ def get_session_with_proxy_and_retries(proxy, retries=3, backoff_factor=0.3, sta
     if proxy:
         session.proxies = {'http': proxy, 'https': proxy}
         log_message(random.choice([
-            "We're still using the same proxy... but does it even matter anymore?",
-            "Proxy’s there, just like old habits we can’t seem to let go of.",
-            "Using the proxy, like clinging to something that’s already broken.",
-            "The proxy’s here, but does it really help fix anything?",
-            "We’re still using a proxy... but we both know it’s not enough."
+            "We’re still using the proxy, hoping it’ll make a difference, but deep down, we know it won’t fix what’s broken.",
+            "Still using the same proxy, like holding onto memories we should have let go of a long time ago.",
+            "We use the proxy, thinking it'll help, but the truth is, some things just can’t be patched up.",
+            "The proxy’s here... but does it really change anything between us anymore?",
+            "The proxy’s active, like trying to pretend everything’s okay, but we both know it’s not."
         ]), Fore.CYAN)
     
     return session
@@ -122,50 +117,50 @@ def get_color(pixel, header):
         return "#000000"
     except requests.exceptions.Timeout:
         log_message(random.choice([
-            "It’s taking too long... just like us, running out of time.",
-            "The request timed out... just like our patience with each other.",
-            "Another timeout... sometimes things just don’t work out.",
-            "I waited, but it seems like this too has run out of time.",
-            "Timeout. I guess we’ll never really get there, will we?"
+            "It took too long... just like us, we waited too long, and now it’s over.",
+            "The request timed out... I guess everything does in the end, doesn’t it?",
+            "It couldn’t wait any longer, just like how we couldn’t wait for each other.",
+            "I tried, but it timed out, and now there’s nothing left for us here.",
+            "We waited too long, and now the time’s up, like all the moments we missed."
         ]), Fore.RED)
         return "#000000"
     except requests.exceptions.ConnectionError as e:
         log_message(random.choice([
-            "Connection error... much like the one we used to share.",
-            "It’s broken. The connection, the proxy, us.",
-            "Lost the connection... and here we are again, broken.",
-            "The connection failed... I wonder if it’s a sign.",
-            "Another lost connection. Seems like that’s all we’re good at now."
-        ]) + f" {e}", Fore.RED)
+            "We lost the connection... but it feels like we’ve lost more than that.",
+            "Another broken connection... it’s becoming a pattern with us.",
+            "The connection’s gone, just like how we lost our way.",
+            "The connection failed... it reminds me of everything else that’s failed between us.",
+            "We lost the connection... and now, all that’s left is the emptiness."
+        ]), Fore.RED)
         return "#000000"
     except requests.exceptions.RequestException as e:
         log_message(random.choice([
-            "Something went wrong, again. Just like it always does.",
-            "Another error... it's all we seem to have left.",
-            "It failed... just like everything we tried to fix.",
-            "Another failure... seems like that's all we’re good at.",
-            "It’s broken again... like the pieces of us we couldn’t keep together."
-        ]) + f" {e}", Fore.RED)
+            "It didn’t work... nothing’s working anymore, is it?",
+            "Another failure... it seems like all we do is break things now.",
+            "It failed... just like every time we tried to fix things.",
+            "Something went wrong again... like everything we tried to save.",
+            "It didn’t go through... just like how we never could get through to each other."
+        ]), Fore.RED)
         return "#000000"
 
 def claim(header):
     log_message(random.choice([
-        "It’s done... you’ve claimed it. But why do I still feel like we’re drifting apart?",
-        "I guess this is yours now... but what did we lose along the way?",
-        "You’ve claimed it, but all I can think about is what we’ve given up.",
-        "Success. But why does it feel like another step away from each other?",
-        "It’s yours now... but is it really enough?"
+        "You claimed it... but why does it feel like I’ve lost something in the process?",
+        "It’s done... but claiming this doesn’t bring back what we lost, does it?",
+        "I handed it to you... the claim, but it feels like we’ve traded something more valuable away.",
+        "You got what you wanted... but why do I feel like we’re further apart than ever?",
+        "It’s all yours now... but somehow, it feels like a hollow victory."
     ]), Fore.CYAN)
     try:
         session.get(f"{url}/mining/claim", headers=header, timeout=10)
     except requests.exceptions.RequestException as e:
         log_message(random.choice([
-            "You couldn’t claim it... just like we couldn’t hold onto us.",
-            "Failed again... it seems like we can’t get anything right.",
-            "I tried, but it just didn’t work... maybe some things aren’t meant to be.",
-            "You wanted to claim it, but it slipped away... just like everything else.",
-            "I couldn’t make it work. And now, it’s gone."
-        ]) + f" {e}", Fore.RED)
+            "You couldn’t claim it... much like how we couldn’t claim a future together.",
+            "It slipped through... just like we slipped away from each other.",
+            "Failed to claim... it’s like watching everything we had fall apart.",
+            "The claim failed... just like everything else we tried to hold onto.",
+            "I tried, but it didn’t work... maybe it was never meant to."
+        ]), Fore.RED)
 
 def get_pixel(x, y):
     return y * 1000 + x + 1
@@ -184,32 +179,32 @@ def paint(canvas_pos, color, header):
 
         if response.status_code == 400:
             log_message(random.choice([
-                "You’re out of energy, just like how we ran out of time for each other.",
-                "No energy left... just like no more words left between us.",
-                "It’s over... out of energy, out of chances.",
-                "No energy to keep going. Maybe this is the end.",
-                "Out of energy... like the last bit of us finally slipping away."
+                "You’re out of energy... like how we ran out of reasons to keep going.",
+                "There’s no more energy left... just like we’ve run out of hope for us.",
+                "It’s empty... there’s nothing left, just like the space between us.",
+                "Out of energy... just like how we ran out of ways to make it work.",
+                "There’s no more left... it’s over, and we’re out of everything."
             ]), Fore.RED)
             return False
         if response.status_code == 401:
             return -1
 
         log_message(random.choice([
-            f"I painted {x},{y}, but does it even matter anymore?",
-            f"Another pixel placed... but it doesn’t feel the same.",
-            f"It’s done... {x},{y}. But I’m left with this hollow feeling.",
-            f"Another piece added... but why do I still feel empty?",
-            f"It’s painted, {x},{y}, but what did we lose along the way?"
+            f"Another pixel added at {x},{y}, but it still feels like something’s missing.",
+            f"I painted {x},{y}, but it’s hard to feel good about it now.",
+            f"It’s done... {x},{y}, but nothing feels right anymore.",
+            f"I placed it at {x},{y}, but the emptiness is still there.",
+            f"It’s finished at {x},{y}, but does it even matter?"
         ]), Fore.GREEN)
         return True
     except requests.exceptions.RequestException as e:
         log_message(random.choice([
-            "Failed to paint... just like we failed to keep everything together.",
-            "It didn’t work, again. I guess some things are just meant to stay broken.",
-            "Another failure... seems like that’s all we do now.",
-            "We couldn’t paint it... just like we couldn’t make this work.",
-            "It didn’t go through... maybe it was never meant to."
-        ]) + f" {e}", Fore.RED)
+            "It didn’t work... we couldn’t even finish this one thing.",
+            "Another failure... just like us, falling apart with every try.",
+            "It didn’t go through... I guess some things aren’t meant to be fixed.",
+            "We couldn’t paint it... just like we couldn’t save what we had.",
+            "It failed... like every last effort we tried to make."
+        ]), Fore.RED)
         return False
 
 def extract_username_from_initdata(init_data):
@@ -234,28 +229,28 @@ def fetch_mining_data(header):
             data = response.json()
             user_balance = data.get('userBalance', 'Unknown')
             log_message(random.choice([
-                f"You’ve got a balance of {user_balance}, but why does it still feel like we’re not enough?",
-                f"Your balance is {user_balance}, but what have we really gained?",
-                f"Balance: {user_balance}. Yet all I feel is this emptiness inside.",
-                f"You have {user_balance}, but why does it feel like we’re still losing?",
-                f"Your balance is {user_balance}, but what did we give up along the way?"
+                f"Your balance is {user_balance}, but why does it feel like we’re still losing?",
+                f"You’ve got {user_balance}, but what’s the point if we’re still drifting apart?",
+                f"{user_balance} is your balance, but no amount will ever fix what we lost.",
+                f"Balance: {user_balance}, but no number will make this emptiness go away.",
+                f"Your balance is {user_balance}, but all I feel is that we’re still not whole."
             ]), Fore.MAGENTA)
         else:
             log_message(random.choice([
-                "We couldn’t even get your mining data... maybe some things are better left unknown.",
-                "Failed to fetch the data... just like we couldn’t fix us.",
-                "I tried, but the mining data is out of reach... just like everything else now.",
-                "Mining data isn’t available... it’s like the future we never had.",
-                "It didn’t work... just like everything else we tried."
+                "We couldn’t get your mining data... just like we couldn’t fix what was broken.",
+                "The data didn’t come... like all the promises we left behind.",
+                "It failed to load... and it feels like another piece of us fading away.",
+                "Mining data wasn’t retrieved... maybe some things are better left unknown.",
+                "It didn’t work... just like us, it failed to show what we needed."
             ]), Fore.RED)
     except requests.exceptions.RequestException as e:
         log_message(random.choice([
-            "We couldn’t get it... the mining data, the future, us.",
-            "Error fetching data... seems like everything’s a struggle now.",
-            "Another failure to connect... we keep trying but nothing changes.",
-            "We couldn’t fetch the mining data... maybe it’s not worth it anymore.",
-            "It’s all broken, including the mining data we can’t even get."
-        ]) + f" {e}", Fore.RED)
+            "We couldn’t get the data... it’s like everything’s falling apart now.",
+            "Another error fetching data... another sign that we’re too broken to continue.",
+            "We couldn’t retrieve it... like we couldn’t retrieve the parts of us we lost.",
+            "The mining data is out of reach... just like everything we hoped for.",
+            "It didn’t work, again... like trying to patch up something that’s too far gone."
+        ]), Fore.RED)
 
 def main(auth, account):
     headers = {'authorization': auth}
@@ -274,32 +269,32 @@ def main(auth, account):
                 color = get_color(get_canvas_pos(x, y), headers)
                 if color == -1:
                     log_message(random.choice([
-                        "I guess it’s over... the authorization failed.",
-                        "Authorization’s dead... just like what we had.",
-                        "I thought we could keep going, but it seems like this is the end.",
-                        "Authorization failed... I should have known it wouldn’t last.",
-                        "We’ve reached the end... the authorization is no longer valid."
+                        "The authorization failed... like everything we tried to hold onto.",
+                        "It’s over... the authorization’s gone, like us.",
+                        "Authorization failed... I guess some things weren’t meant to last.",
+                        "The end... authorization is gone, just like what we had.",
+                        "It didn’t work... the authorization died, and so did everything else."
                     ]), Fore.RED)
                     print(headers["authorization"])
                     break
                 if image[y][x] == ' ' or color == c[image[y][x]]:
                     log_message(random.choice([
-                        f"I skipped {start_x + x - 1},{start_y + y - 1}. It doesn’t even feel like skipping anymore.",
-                        f"Another skip... {start_x + x - 1},{start_y + y - 1}. But we’re not skipping the pain, are we?",
-                        f"Skipping {start_x + x - 1},{start_y + y - 1}, but the memories remain.",
-                        f"Another one skipped... {start_x + x - 1},{start_y + y - 1}. But can we skip the hurt?",
-                        f"It’s skipped {start_x + x - 1},{start_y + y - 1}. But what about the rest of us?"
+                        f"I skipped {start_x + x - 1},{start_y + y - 1}, but it feels like I’m skipping more than just pixels.",
+                        f"Skipped {start_x + x - 1},{start_y + y - 1}, but it doesn’t feel like progress anymore.",
+                        f"It’s skipped... {start_x + x - 1},{start_y + y - 1}, but nothing feels right now.",
+                        f"Another skip... {start_x + x - 1},{start_y + y - 1}. But we’re skipping more than just pixels, aren’t we?",
+                        f"Skipped again... {start_x + x - 1},{start_y + y - 1}. It feels like I’m skipping past pieces of us."
                     ]), Fore.RED)
                     continue
 
                 result = paint(get_canvas_pos(x, y), c[image[y][x]], headers)
                 if result == -1:
                     log_message(random.choice([
-                        "Authorization failed... we can’t go on like this.",
-                        "Authorization’s broken... I guess it’s over.",
-                        "We tried, but the authorization just isn’t there anymore.",
-                        "Failed to keep going... authorization is gone, like us.",
-                        "Authorization failure... it feels like a final goodbye."
+                        "It’s dead... the authorization is gone, like everything we tried to save.",
+                        "The authorization failed... just like everything else we couldn’t hold onto.",
+                        "We tried, but the authorization is no longer valid, just like us.",
+                        "It’s broken now... the authorization’s gone, and so is everything we had.",
+                        "Authorization is over... and so is everything else."
                     ]), Fore.RED)
                     print(headers["authorization"])
                     break
@@ -310,53 +305,53 @@ def main(auth, account):
 
             except IndexError:
                 log_message(random.choice([
-                    "Something went wrong... I guess we weren’t careful enough.",
-                    "IndexError... just another thing we couldn’t handle.",
-                    "We missed something... maybe we’re always missing things now.",
-                    "Another error... it seems like that’s all we’re left with.",
-                    "IndexError... maybe it was inevitable."
+                    "We missed something... and now it’s too late to fix it.",
+                    "Another error... it’s becoming too much to handle.",
+                    "I lost track... and now it’s all fallen apart.",
+                    "IndexError... it’s just another crack in the already broken picture.",
+                    "Something went wrong... and now it feels like everything is slipping away."
                 ]), Fore.RED)
     except requests.exceptions.RequestException as e:
         log_message(random.choice([
-            f"Network error... even the connection in account {account} couldn’t last.",
-            f"We tried, but the network failed for {account}. Maybe we’re just cursed.",
-            f"Network issues with {account}... another connection lost.",
-            f"Failed to connect for {account}... seems like that’s all we do now.",
-            f"The network couldn’t hold for {account}. It’s just another broken thing."
-        ]) + f" {e}", Fore.RED)
+            f"We couldn’t connect for {account}... it’s like nothing’s working anymore.",
+            f"Network issues for {account}... even the smallest things seem to be falling apart now.",
+            f"We couldn’t connect... just like how we couldn’t connect anymore.",
+            f"The network failed... and so did everything else, it seems.",
+            f"We lost the connection for {account}... just another thing that’s breaking down."
+        ]), Fore.RED)
 
 def process_accounts(accounts):
     first_account_start_time = datetime.now()
     for account in accounts:
         username = extract_username_from_initdata(account)
         log_message(random.choice([
-            f"Starting again for {username}... but we both know how this ends.",
-            f"We’re back, {username}, but it doesn’t feel the same anymore.",
-            f"It’s {username}’s turn... but is this really what we want?",
-            f"Another round for {username}, but it feels like we’re just going through the motions.",
-            f"It’s {username} again... but why do I feel like we’re further apart than ever?"
+            f"We’re starting again for {username}, but it feels like it’s just another step toward the end.",
+            f"{username}’s up next... but I wonder if it’s even worth it anymore.",
+            f"Here we go again with {username}, but why does it feel like nothing’s going to change?",
+            f"{username} is up, but all I feel is this growing emptiness.",
+            f"It’s {username} again, but I can’t shake this feeling that we’re just delaying the inevitable."
         ]), Fore.BLUE)
         main(account, account)
 
     time_elapsed = datetime.now() - first_account_start_time
-    time_to_wait = timedelta(hours=1) - time_elapsed
+    time_to_wait = timedelta(minutes=30) - time_elapsed
 
     if time_to_wait.total_seconds() > 0:
         log_message(random.choice([
-            f"Waiting {int(time_to_wait.total_seconds() //60)} minutes... it feels like I’ve been waiting forever.",
-            f"SLEEPING for {int(time_to_wait.total_seconds() // 60)} minutes. But some things can’t be fixed by waiting.",
-            f"It’s time to wait... {int(time_to_wait.total_seconds() // 60)} minutes, like waiting for something that’ll never come.",
-            f"{int(time_to_wait.total_seconds() // 60)} minutes of waiting... but does waiting ever really help?",
-            f"Another wait, {int(time_to_wait.total_seconds() // 60)} minutes... but no amount of time can fix what’s broken."
+            f"We’ll wait for {int(time_to_wait.total_seconds() // 60)} minutes... like waiting for something that’ll never come back.",
+            f"It’s time to wait... {int(time_to_wait.total_seconds() // 60)} minutes, but no amount of waiting will fix what’s broken.",
+            f"We’re waiting again... {int(time_to_wait.total_seconds() // 60)} minutes, but it feels like waiting for nothing.",
+            f"{int(time_to_wait.total_seconds() // 60)} minutes of waiting... like waiting for the end we both know is coming.",
+            f"We’re waiting, {int(time_to_wait.total_seconds() // 60)} minutes... but no amount of time can heal what’s been lost."
         ]), Fore.YELLOW)
         time.sleep(time_to_wait.total_seconds())
     else:
         log_message(random.choice([
-            "No need to wait... but it feels like we’ve already waited too long.",
-            "It’s over an hour... no sleep needed, but what have we lost along the way?",
-            "No sleep needed, but it still feels like we’re out of time.",
-            "The time’s up, and we don’t need to wait. But why do I still feel so tired?",
-            "No waiting needed... but that doesn’t mean everything’s okay now."
+            "No need to wait... but it feels like we’ve already waited too long for things to be okay.",
+            "We’ve already been waiting too long... it’s time to move forward, even if it feels like nothing matters anymore.",
+            "No more waiting... but I wonder if anything we do now will make a difference.",
+            "Time’s up... no need to wait, but why does it feel like we’re running out of chances?",
+            "We’re done waiting... but maybe we’re also done hoping for something to change."
         ]), Fore.YELLOW)
 
 if __name__ == "__main__":
