@@ -19,7 +19,7 @@ This Python script automates interaction with the official Not Pixels account on
 2. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/iemtejasvi/Not-Pixels
+   https://github.com/iemtejasvi/Not-Pixels-for-windows.git
    cd Not-Pixels
    ```
 
