@@ -53,7 +53,7 @@ This Python script automates interaction with the official Not Pixels account on
 
 5. **Run the Script:**
 
-   After retrieving your Telegram data, paste inside data.txt file and run the script using the following command:
+   Run the script using the following command:
 
    ```bash
    python main.py
