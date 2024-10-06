@@ -19,9 +19,22 @@ HEIGHT = 1000
 MAX_HEIGHT = 50
 start_x = 920
 start_y = 386
+account_file = 'accounts.txt'  # Persistent storage for accounts
+proxy_file = 'proxy.txt'       # Persistent storage for proxies
 
 init(autoreset=True)
 setproctitle("notpixel")
+
+# Telegram Info
+def display_telegram_info():
+    print(Fore.CYAN + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print(Fore.CYAN + " Follow me on Telegram: @virtusoses")
+    print(Fore.CYAN + " Telegram Channel: https://t.me/virtusoses")
+    print(Fore.CYAN + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+# Clear terminal
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def get(path):
     space = ' '
@@ -63,20 +76,87 @@ def log_message(message, color=Style.RESET_ALL):
     current_time = datetime.now().strftime("[%H:%M:%S]")
     print(f"{Fore.LIGHTBLACK_EX}{current_time}{Style.RESET_ALL} {color}{message}{Style.RESET_ALL}")
 
-def load_proxy_from_file(filename='proxy.txt'):
+# Load accounts from persistent storage
+def load_accounts_from_file(filename=account_file):
     if not os.path.exists(filename):
-        log_message(random.choice([
-            "It’s gone... like everything we built together, the proxy file isn’t here anymore.",
-            "We searched, but the proxy file is gone... just like the future we once talked about.",
-            "Even the proxy’s missing... it’s just another thing we couldn’t hold onto.",
-            "I wanted to find it, I really did, but the proxy’s just not there... like how we drifted apart.",
-            "The proxy file... missing, lost, just like everything we tried to save."
-        ]), Fore.RED)
-        return None
+        return []
     
     with open(filename, 'r') as file:
-        proxy = file.readline().strip()
-        return proxy
+        accounts = [f"initData {line.strip()}" for line in file if line.strip()]
+    return accounts
+
+# Save an account to file
+def save_account(account):
+    with open(account_file, 'a') as file:
+        file.write(f"{account}\n")
+    log_message("Account saved.", Fore.GREEN)
+
+# Delete an account from file
+def delete_account():
+    accounts = load_accounts_from_file()
+    if not accounts:
+        log_message("No accounts to delete.", Fore.RED)
+        return
+    print("\nSelect account to delete:")
+    for idx, acc in enumerate(accounts, start=1):
+        print(f"{Fore.YELLOW}{idx}. {acc}")
+    choice = input(Fore.CYAN + "\nEnter the number: ")
+    try:
+        choice = int(choice) - 1
+        if 0 <= choice < len(accounts):
+            del accounts[choice]
+            with open(account_file, 'w') as file:
+                file.writelines([f"{acc}\n" for acc in accounts])
+            log_message("Account deleted.", Fore.GREEN)
+        else:
+            log_message("Invalid choice.", Fore.RED)
+    except ValueError:
+        log_message("Invalid input.", Fore.RED)
+
+# Load proxies from persistent storage
+def load_proxies():
+    if not os.path.exists(proxy_file):
+        return []
+    
+    with open(proxy_file, 'r') as file:
+        proxies = [line.strip() for line in file if line.strip()]
+    return proxies
+
+# Save a proxy to file
+def save_proxy(proxy):
+    with open(proxy_file, 'a') as file:
+        file.write(f"{proxy}\n")
+    log_message("Proxy saved.", Fore.GREEN)
+
+# Delete a proxy from file
+def delete_proxy():
+    proxies = load_proxies()
+    if not proxies:
+        log_message("No proxies to delete.", Fore.RED)
+        return
+    print("\nSelect proxy to delete:")
+    for idx, proxy in enumerate(proxies, start=1):
+        print(f"{Fore.YELLOW}{idx}. {proxy}")
+    choice = input(Fore.CYAN + "\nEnter the number: ")
+    try:
+        choice = int(choice) - 1
+        if 0 <= choice < len(proxies):
+            del proxies[choice]
+            with open(proxy_file, 'w') as file:
+                file.writelines([f"{proxy}\n" for proxy in proxies])
+            log_message("Proxy deleted.", Fore.GREEN)
+        else:
+            log_message("Invalid choice.", Fore.RED)
+    except ValueError:
+        log_message("Invalid input.", Fore.RED)
+
+def load_proxy_from_file(filename=proxy_file):
+    proxies = load_proxies()
+    if not proxies:
+        log_message("No proxy found, proceeding without proxy.", Fore.YELLOW)
+        return None
+    
+    return random.choice(proxies)
 
 proxy = load_proxy_from_file()
 
@@ -217,11 +297,6 @@ def extract_username_from_initdata(init_data):
     
     return "Unknown"
 
-def load_accounts_from_file(filename):
-    with open(filename, 'r') as file:
-        accounts = [f"initData {line.strip()}" for line in file if line.strip()]
-    return accounts
-
 def fetch_mining_data(header):
     try:
         response = session.get(f"https://notpx.app/api/v1/mining/status", headers=header, timeout=10)
@@ -354,7 +429,64 @@ def process_accounts(accounts):
             "We’re done waiting... but maybe we’re also done hoping for something to change."
         ]), Fore.YELLOW)
 
-if __name__ == "__main__":
-    accounts = load_accounts_from_file('data.txt')
+# Menu
+def menu():
     while True:
-        process_accounts(accounts)
+        clear_terminal()  # Clear the terminal every time before showing the menu
+        display_telegram_info()
+        
+        print(Fore.GREEN + "╔══════════════════════════════════════╗")
+        print(Fore.GREEN + "║           🌟 Main Menu 🌟            ║")
+        print(Fore.GREEN + "╠══════════════════════════════════════╣")
+        print(Fore.GREEN + "║ 1. ➕ Add Account                     ║")
+        print(Fore.GREEN + "║ 2. 👀 View Accounts                  ║")
+        print(Fore.GREEN + "║ 3. ❌ Delete Account                 ║")
+        print(Fore.GREEN + "║ 4. ➕ Add Proxy                       ║")
+        print(Fore.GREEN + "║ 5. 👀 View Proxies                   ║")
+        print(Fore.GREEN + "║ 6. ❌ Delete Proxy                   ║")
+        print(Fore.GREEN + "║ 7. 🚀 Start Script                   ║")
+        print(Fore.GREEN + "║ 8. ❌ Exit                           ║")
+        print(Fore.GREEN + "╚══════════════════════════════════════╝")
+        
+        choice = input(Fore.CYAN + "\nChoose an option (1-8): ")
+        
+        clear_terminal()  # Clear the terminal before proceeding to the action
+        
+        if choice == '1':
+            url = input("Enter the account URL: ")
+            save_account(url)
+        elif choice == '2':
+            accounts = load_accounts_from_file()
+            if accounts:
+                print(Fore.YELLOW + "Accounts:")
+                for acc in accounts:
+                    print(acc)
+            else:
+                log_message("No accounts found.", Fore.RED)
+            input(Fore.YELLOW + "\nPress Enter to continue...")  # Wait for user to press Enter
+        elif choice == '3':
+            delete_account()
+        elif choice == '4':
+            proxy = input("Enter proxy (format http://user:pass@ip:port): ")
+            save_proxy(proxy)
+        elif choice == '5':
+            proxies = load_proxies()
+            if proxies:
+                print(Fore.YELLOW + "Proxies:")
+                for proxy in proxies:
+                    print(proxy)
+            else:
+                log_message("No proxies found.", Fore.RED)
+            input(Fore.YELLOW + "\nPress Enter to continue...")  # Wait for user to press Enter
+        elif choice == '6':
+            delete_proxy()
+        elif choice == '7':
+            accounts = load_accounts_from_file()
+            process_accounts(accounts)
+        elif choice == '8':
+            break
+        else:
+            log_message("Invalid choice.", Fore.RED)
+
+if __name__ == "__main__":
+    menu()
